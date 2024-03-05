@@ -2,12 +2,12 @@ import json
 from chatterbot import ChatBot
 from chatterbot.trainers import ListTrainer
 
-def load_data(json_file_path):
+def load_data(json_file_path: str) -> dict:
     with open(json_file_path, 'r') as json_file:
         data = json.load(json_file)
     return data
 
-def train_model():
+def train_model() -> ChatBot:
     bot = ChatBot('Norman', logic_adapters=[
         "chatterbot.logic.BestMatch",
         "chatterbot.logic.MathematicalEvaluation",
@@ -27,7 +27,8 @@ def train_model():
         trainer.train(dialogue)
     return bot
 
-def get_response(bot, question):
+def get_response(bot:ChatBot, question:str) -> str:
     
     answer = bot.get_response(question)
     return answer
+
