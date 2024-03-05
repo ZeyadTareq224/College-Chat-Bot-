@@ -7,8 +7,12 @@ def load_data(json_file_path):
         data = json.load(json_file)
     return data
 
-def train_model(trainer):
-
+def train_model():
+    bot = ChatBot('Norman', logic_adapters=[
+        "chatterbot.logic.BestMatch",
+        "chatterbot.logic.MathematicalEvaluation",
+    ])
+    trainer = ListTrainer(bot)
     data = load_data('intents.json')
     for sample in data.get("intents"):
         dialogue = []
@@ -21,14 +25,9 @@ def train_model(trainer):
                 dialogue.append(question)
                 dialogue.append(response)
         trainer.train(dialogue)
+    return bot
 
-def get_response(question):
-    bot = ChatBot('Norman', logic_adapters=[
-        "chatterbot.logic.BestMatch",
-        "chatterbot.logic.MathematicalEvaluation",
-    ])
-    trainer = ListTrainer(bot)
-    train_model(trainer=trainer)
-
+def get_response(bot, question):
+    
     answer = bot.get_response(question)
     return answer
